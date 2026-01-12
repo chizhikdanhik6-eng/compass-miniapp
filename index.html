@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="UTF-8" />
   <title>Compass</title>
@@ -19,13 +19,13 @@
     }
 
     .container {
-      text-align: center;
-      max-width: 320px;
+      width: 100%;
+      max-width: 360px;
       padding: 24px;
     }
 
     h1 {
-      font-size: 26px;
+      font-size: 22px;
       font-weight: 500;
       margin-bottom: 12px;
     }
@@ -33,8 +33,26 @@
     p {
       font-size: 14px;
       color: #b5b5b5;
-      margin-bottom: 32px;
+      margin-bottom: 20px;
       line-height: 1.5;
+    }
+
+    textarea {
+      width: 100%;
+      height: 160px;
+      background: #1a1a1a;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      color: #ffffff;
+      font-size: 14px;
+      resize: none;
+      margin-bottom: 20px;
+      box-sizing: border-box;
+    }
+
+    textarea::placeholder {
+      color: #6f6f6f;
     }
 
     button {
@@ -55,16 +73,24 @@
   </style>
 </head>
 <body>
+
   <div class="container">
     <h1>Compass</h1>
-    <p>Безопасное место для честного направления.</p>
-    <button onclick="goNext()">Проверить направление</button>
+    <p>
+      Выгрузи всё, что сейчас кажется важным.<br>
+      Не сортируй. Не анализируй. Просто напиши.
+    </p>
+
+    <textarea placeholder="Напиши здесь..."></textarea>
+
+    <button onclick="goNext()">Дальше</button>
   </div>
 
   <script>
     function goNext() {
-      alert("Next step: direction flow");
+      alert("Следующий шаг: максимальный удар");
     }
   </script>
+
 </body>
 </html>
