@@ -26,14 +26,7 @@
     h1 {
       font-size: 22px;
       font-weight: 500;
-      margin-bottom: 12px;
-    }
-
-    p {
-      font-size: 14px;
-      color: #b5b5b5;
-      line-height: 1.5;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
     }
 
     textarea {
@@ -46,7 +39,7 @@
       color: #ffffff;
       font-size: 14px;
       box-sizing: border-box;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
       resize: none;
     }
 
@@ -60,6 +53,16 @@
       border-radius: 8px;
       font-weight: 500;
       cursor: pointer;
+      margin-bottom: 16px;
+    }
+
+    .response {
+      background: #1a1a1a;
+      border-radius: 8px;
+      padding: 14px;
+      font-size: 14px;
+      white-space: pre-wrap;
+      min-height: 60px;
     }
   </style>
 </head>
@@ -67,36 +70,33 @@
 
   <div class="container">
     <h1>Compass</h1>
-    <p>
-      Выгрузи всё, что сейчас кажется важным.<br>
-      Не сортируй. Не анализируй. Просто напиши.
-    </p>
-    <textarea id="dump"></textarea>
-    <button id="sendBtn">Дальше</button>
+
+    <textarea id="input" placeholder="Напиши, что сейчас происходит..."></textarea>
+
+    <button id="send">Дальше</button>
+
+    <div class="response" id="response"></div>
   </div>
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    const btn = document.getElementById('sendBtn');
-    const textarea = document.getElementById('dump');
+    const btn = document.getElementById('send');
+    const input = document.getElementById('input');
+    const responseBox = document.getElementById('response');
 
     btn.addEventListener('click', async () => {
-      const text = textarea.value;
+      responseBox.textContent = 'Думаю...';
 
       const res = await fetch('/api/dump', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ text })
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: input.value })
       });
 
       const data = await res.json();
 
-      alert(
-        'Данные отправлены.\n' +
-        'Длина текста: ' + data.receivedLength
-      );
+      responseBox.textContent =
+        data.answer || 'Ответ не получен';
     });
   });
 </script>
