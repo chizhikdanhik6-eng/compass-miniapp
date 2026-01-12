@@ -78,4 +78,78 @@
 <body>
 
   <!-- SCREEN 1 -->
-  <div class="co
+  <div class="container" id="screen1">
+    <h1>Compass</h1>
+    <p>Выгрузи всё, что сейчас кажется важным.</p>
+    <textarea></textarea>
+    <button id="toScreen2">Дальше</button>
+  </div>
+
+  <!-- SCREEN 2 -->
+  <div class="container" id="screen2" style="display:none;">
+    <h1>Compass</h1>
+    <p>Если ты ничего не сделаешь в ближайшую неделю — что аукнется сильнее всего?</p>
+    <textarea></textarea>
+    <button id="toScreen3">Дальше</button>
+  </div>
+
+  <!-- SCREEN 3 -->
+  <div class="container" id="screen3" style="display:none;">
+    <h1>Compass</h1>
+    <p>Этот выбор — что он делает?</p>
+
+    <div class="option" data-value="relief">Снижает напряжение</div>
+    <div class="option" data-value="shift">Меняет направление</div>
+
+    <button id="evaluateBtn">Продолжить</button>
+  </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    let selected = null;
+
+    const screen1 = document.getElementById('screen1');
+    const screen2 = document.getElementById('screen2');
+    const screen3 = document.getElementById('screen3');
+
+    document.getElementById('toScreen2').addEventListener('click', () => {
+      screen1.style.display = 'none';
+      screen2.style.display = 'block';
+    });
+
+    document.getElementById('toScreen3').addEventListener('click', () => {
+      screen2.style.display = 'none';
+      screen3.style.display = 'block';
+    });
+
+    document.querySelectorAll('.option').forEach(option => {
+      option.addEventListener('click', () => {
+        document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+        option.classList.add('selected');
+        selected = option.dataset.value;
+        console.log('selected:', selected);
+      });
+    });
+
+    document.getElementById('evaluateBtn').addEventListener('click', () => {
+      if (!selected) {
+        alert('Выбери один вариант.');
+        return;
+      }
+
+      if (selected === 'relief') {
+        alert(
+          'Это снизит напряжение, но не изменит направление.\n' +
+          'Выбери то, что влияет на траекторию.'
+        );
+      }
+
+      if (selected === 'shift') {
+        alert('Следующий шаг: фиксация фокуса');
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
