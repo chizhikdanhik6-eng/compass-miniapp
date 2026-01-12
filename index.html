@@ -3,26 +3,27 @@
 <head>
   <meta charset="UTF-8" />
   <title>Compass</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
     :root {
-      --bg-main: #121110;
-      --bg-surface: #1b1a18;
+      --bg-dark: #121110;
+      --bg-light: #1c1b18;
       --text-main: #f4f3f1;
       --text-muted: #9c9a95;
-      --accent: #c7a76a;
-      --line-soft: #2a2926;
+      --brass: #c7a76a;
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
-      background: radial-gradient(circle at center, #1a1916 0%, #121110 60%);
-      color: var(--text-main);
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
       height: 100vh;
+      background: radial-gradient(circle at center, var(--bg-light), var(--bg-dark));
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text-main);
       overflow: hidden;
     }
 
@@ -32,198 +33,158 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 24px;
-      transition: opacity .5s ease, transform .5s ease;
+      transition: opacity .6s ease;
     }
 
     .hidden {
       opacity: 0;
       pointer-events: none;
-      transform: translateY(10px);
     }
 
-    .container {
-      width: 100%;
-      max-width: 360px;
+    /* ENTRY */
+    .entry {
+      flex-direction: column;
+      transform: translateY(-30px);
+    }
+
+    .title {
+      margin-top: 22px;
+      font-size: 22px;
+      letter-spacing: .4px;
+      opacity: 0;
+      animation: titleFade .6s ease forwards;
+      animation-delay: 1.4s;
+    }
+
+    @keyframes titleFade {
+      to { opacity: 1; }
+    }
+
+    /* HOME */
+    .home {
+      flex-direction: column;
+      gap: 20px;
       text-align: center;
     }
 
-    h1 {
+    .home h1 {
       font-size: 26px;
       font-weight: 500;
-      margin: 16px 0 8px;
-      letter-spacing: .3px;
+      margin: 0;
     }
 
-    p {
-      font-size: 15px;
-      line-height: 1.6;
+    .home p {
       color: var(--text-muted);
-      margin-bottom: 28px;
-    }
-
-    button {
-      width: 100%;
-      padding: 14px;
       font-size: 15px;
-      background: var(--bg-surface);
-      color: var(--text-main);
-      border: 1px solid var(--line-soft);
-      border-radius: 12px;
-      cursor: pointer;
+      margin: 0;
     }
 
-    button.primary {
-      background: var(--accent);
+    .home button {
+      margin-top: 20px;
+      padding: 14px 28px;
+      font-size: 15px;
+      background: var(--brass);
       color: #121110;
       border: none;
-      font-weight: 500;
-    }
-
-    textarea {
-      width: 100%;
-      height: 140px;
-      background: var(--bg-surface);
-      border: 1px solid var(--line-soft);
       border-radius: 12px;
-      padding: 12px;
-      color: var(--text-main);
-      font-size: 14px;
-      margin-bottom: 24px;
-      resize: none;
-    }
-
-    .logo {
-      width: 110px;
-      height: 110px;
-      margin: 0 auto;
-    }
-
-    .logo.entry svg {
-      stroke: var(--accent);
-    }
-
-    .logo.home svg {
-      stroke: var(--text-main);
-      opacity: .9;
-    }
-
-    .focus-box {
-      background: var(--bg-surface);
-      border-left: 3px solid var(--accent);
-      padding: 18px;
-      font-size: 15px;
-      white-space: pre-wrap;
-      text-align: left;
+      cursor: pointer;
+      font-weight: 500;
     }
   </style>
 </head>
 <body>
 
-<!-- ENTRY -->
-<div class="screen" id="entry">
-  <div class="container">
-    <div class="logo entry">
-      <svg viewBox="0 0 120 120">
-        <circle cx="60" cy="60" r="48" fill="none" stroke-width="2"
-          stroke-dasharray="260 40" transform="rotate(-20 60 60)" />
-        <line x1="64" y1="28" x2="64" y2="92"
-          stroke-width="2" stroke-linecap="round" />
-      </svg>
-    </div>
-    <h1>Compass</h1>
-  </div>
+<!-- ENTRY SCREEN -->
+<div class="screen entry" id="entry">
+  <svg
+    id="compass"
+    width="220"
+    height="220"
+    viewBox="0 0 220 220"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <!-- Brass корпус -->
+    <defs>
+      <linearGradient id="brassGradient" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#e0c48a"/>
+        <stop offset="50%" stop-color="#b89b63"/>
+        <stop offset="100%" stop-color="#8f7745"/>
+      </linearGradient>
+    </defs>
+
+    <circle
+      cx="110"
+      cy="110"
+      r="92"
+      fill="none"
+      stroke="url(#brassGradient)"
+      stroke-width="14"
+    />
+
+    <!-- Glass highlight -->
+    <ellipse
+      cx="110"
+      cy="95"
+      rx="70"
+      ry="40"
+      fill="rgba(255,255,255,0.05)"
+    />
+
+    <!-- Scale -->
+    <line x1="110" y1="20" x2="110" y2="36" stroke="#9c8452" stroke-width="2"/>
+    <line x1="110" y1="184" x2="110" y2="200" stroke="#9c8452" stroke-width="2"/>
+
+    <!-- Needle -->
+    <rect
+      id="needle"
+      x="103"
+      y="44"
+      width="14"
+      height="120"
+      rx="7"
+      fill="#c7a76a"
+      transform-origin="110px 110px"
+    />
+
+    <!-- Center cap -->
+    <circle cx="110" cy="110" r="6" fill="#b89b63"/>
+  </svg>
+
+  <div class="title">Compass</div>
 </div>
 
-<!-- HOME -->
-<div class="screen hidden" id="home">
-  <div class="container">
-    <div class="logo home">
-      <svg viewBox="0 0 120 120">
-        <circle cx="60" cy="60" r="48" fill="none" stroke-width="2"
-          stroke-dasharray="260 40" transform="rotate(-20 60 60)" />
-        <line x1="64" y1="28" x2="64" y2="92"
-          stroke-width="2" stroke-linecap="round" />
-      </svg>
-    </div>
-    <p>Сверь направление</p>
-    <button class="primary" onclick="startFlow()">Начать</button>
-  </div>
-</div>
-
-<!-- FLOW 1 -->
-<div class="screen hidden" id="flow1">
-  <div class="container">
-    <p>Выгрузи всё, что сейчас кажется важным.</p>
-    <textarea id="dump"></textarea>
-    <button onclick="toImpact()">Дальше</button>
-  </div>
-</div>
-
-<!-- FLOW 2 -->
-<div class="screen hidden" id="flow2">
-  <div class="container">
-    <p>Если ничего не сделать — что аукнется сильнее всего?</p>
-    <textarea id="impact"></textarea>
-    <button onclick="sendToCompass()">Продолжить</button>
-  </div>
-</div>
-
-<!-- THINKING -->
-<div class="screen hidden" id="thinking">
-  <div class="container">
-    <p>Думаю…</p>
-  </div>
-</div>
-
-<!-- RESULT -->
-<div class="screen hidden" id="result">
-  <div class="container">
-    <h1>Фокус</h1>
-    <div class="focus-box" id="focus"></div>
-    <button class="primary" onclick="backHome()">Готово</button>
-  </div>
+<!-- HOME SCREEN -->
+<div class="screen home hidden" id="home">
+  <h1>Compass</h1>
+  <p>Сверь направление</p>
+  <button>Начать</button>
 </div>
 
 <script>
-  const screens = ['entry','home','flow1','flow2','thinking','result'];
-  let dumpText = '';
-  let impactText = '';
+  const needle = document.getElementById('needle');
+  const entry = document.getElementById('entry');
+  const home = document.getElementById('home');
 
-  function show(id) {
-    screens.forEach(s => document.getElementById(s).classList.add('hidden'));
-    document.getElementById(id).classList.remove('hidden');
-  }
+  // Анимация стрелки
+  needle.animate(
+    [
+      { transform: 'rotate(-18deg)' },
+      { transform: 'rotate(14deg)' },
+      { transform: 'rotate(14deg)' }, // пауза
+      { transform: 'rotate(0deg)' }   // фиксация
+    ],
+    {
+      duration: 1300,
+      easing: 'ease-in-out',
+      fill: 'forwards'
+    }
+  );
 
-  setTimeout(() => show('home'), 1300);
-
-  function startFlow() { show('flow1'); }
-
-  function toImpact() {
-    dumpText = document.getElementById('dump').value;
-    show('flow2');
-  }
-
-  async function sendToCompass() {
-    impactText = document.getElementById('impact').value;
-    show('thinking');
-
-    const res = await fetch('/api/compass', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ dump: dumpText, impact: impactText })
-    });
-
-    const data = await res.json();
-    document.getElementById('focus').textContent =
-      data.focus || 'Фокус не сформирован';
-
-    show('result');
-  }
-
-  function backHome() {
-    show('home');
-  }
+  // Переход в Home
+  setTimeout(() => {
+    entry.classList.add('hidden');
+    home.classList.remove('hidden');
+  }, 1800);
 </script>
 
 </body>
