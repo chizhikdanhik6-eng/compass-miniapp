@@ -51,10 +51,6 @@
       box-sizing: border-box;
     }
 
-    textarea::placeholder {
-      color: #6f6f6f;
-    }
-
     button {
       width: 100%;
       padding: 14px;
@@ -74,21 +70,41 @@
 </head>
 <body>
 
-  <div class="container">
+  <!-- ЭКРАН 1 — ВЫГРУЗКА -->
+  <div class="container" id="screen1">
     <h1>Compass</h1>
     <p>
       Выгрузи всё, что сейчас кажется важным.<br>
       Не сортируй. Не анализируй. Просто напиши.
     </p>
 
-    <textarea placeholder="Напиши здесь..."></textarea>
+    <textarea id="dump"></textarea>
 
-    <button onclick="goNext()">Дальше</button>
+    <button onclick="goToImpact()">Дальше</button>
+  </div>
+
+  <!-- ЭКРАН 2 — МАКСИМАЛЬНЫЙ УДАР -->
+  <div class="container" id="screen2" style="display:none;">
+    <h1>Compass</h1>
+    <p>
+      Если ты ничего не сделаешь<br>
+      в ближайшую неделю —<br>
+      что аукнется сильнее всего?
+    </p>
+
+    <textarea id="impact"></textarea>
+
+    <button onclick="finishStep()">Дальше</button>
   </div>
 
   <script>
-    function goNext() {
-      alert("Следующий шаг: максимальный удар");
+    function goToImpact() {
+      document.getElementById('screen1').style.display = 'none';
+      document.getElementById('screen2').style.display = 'block';
+    }
+
+    function finishStep() {
+      alert('Следующий шаг: проверка на сдвиг');
     }
   </script>
 
