@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <title>Compass</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
     body {
       margin: 0;
@@ -16,26 +17,54 @@
       justify-content: center;
       height: 100vh;
     }
+
     .container {
       text-align: center;
       max-width: 320px;
+      padding: 24px;
     }
+
     h1 {
-      font-size: 24px;
-      margin-bottom: 12px;
+      font-size: 26px;
       font-weight: 500;
+      margin-bottom: 12px;
     }
+
     p {
       font-size: 14px;
       color: #b5b5b5;
-      line-height: 1.4;
+      margin-bottom: 32px;
+      line-height: 1.5;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      font-size: 15px;
+      background: #ffffff;
+      color: #0f0f0f;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    button:active {
+      opacity: 0.85;
     }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Compass</h1>
-    <p>Safe place for honest direction.</p>
+    <p>Безопасное место для честного направления.</p>
+    <button onclick="goNext()">Проверить направление</button>
   </div>
+
+  <script>
+    function goNext() {
+      alert("Next step: direction flow");
+    }
+  </script>
 </body>
 </html>
