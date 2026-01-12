@@ -39,7 +39,7 @@
 
     textarea {
       width: 100%;
-      height: 160px;
+      height: 140px;
       background: #1a1a1a;
       border: none;
       border-radius: 8px;
@@ -49,6 +49,19 @@
       resize: none;
       margin-bottom: 20px;
       box-sizing: border-box;
+    }
+
+    .option {
+      background: #1a1a1a;
+      border-radius: 8px;
+      padding: 14px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      border: 1px solid transparent;
+    }
+
+    .option.selected {
+      border-color: #ffffff;
     }
 
     button {
@@ -61,6 +74,7 @@
       border-radius: 8px;
       cursor: pointer;
       font-weight: 500;
+      margin-top: 12px;
     }
 
     button:active {
@@ -78,9 +92,8 @@
       Не сортируй. Не анализируй. Просто напиши.
     </p>
 
-    <textarea id="dump"></textarea>
-
-    <button onclick="goToImpact()">Дальше</button>
+    <textarea></textarea>
+    <button onclick="goToScreen(2)">Дальше</button>
   </div>
 
   <!-- ЭКРАН 2 — МАКСИМАЛЬНЫЙ УДАР -->
@@ -92,19 +105,56 @@
       что аукнется сильнее всего?
     </p>
 
-    <textarea id="impact"></textarea>
+    <textarea></textarea>
+    <button onclick="goToScreen(3)">Дальше</button>
+  </div>
 
-    <button onclick="finishStep()">Дальше</button>
+  <!-- ЭКРАН 3 — ПРОВЕРКА НА СДВИГ -->
+  <div class="container" id="screen3" style="display:none;">
+    <h1>Compass</h1>
+    <p>
+      Этот выбор —<br>
+      что он делает?
+    </p>
+
+    <div class="option" onclick="selectOption(this, 'relief')">
+      Снижает напряжение
+    </div>
+
+    <div class="option" onclick="selectOption(this, 'shift')">
+      Меняет направление
+    </div>
+
+    <button onclick="evaluate()">Продолжить</button>
   </div>
 
   <script>
-    function goToImpact() {
+    let selected = null;
+
+    function goToScreen(n) {
       document.getElementById('screen1').style.display = 'none';
-      document.getElementById('screen2').style.display = 'block';
+      document.getElementById('screen2').style.display = 'none';
+      document.getElementById('screen3').style.display = 'none';
+      document.getElementById('screen' + n).style.display = 'block';
     }
 
-    function finishStep() {
-      alert('Следующий шаг: проверка на сдвиг');
+    function selectOption(el, value) {
+      document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+      el.classList.add('selected');
+      selected = value;
+    }
+
+    function evaluate() {
+      if (!selected) {
+        alert('Выбери один вариант.');
+        return;
+      }
+
+      if (selected === 'relief') {
+        alert('Это снизит напряжение, но не изменит направление.\nПопробуй выбрать то, что влияет на траекторию.');
+      } else {
+        alert('Следующий шаг: фиксация фокуса');
+      }
     }
   </script>
 
