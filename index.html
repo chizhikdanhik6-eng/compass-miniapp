@@ -60,6 +60,12 @@
       border-radius: 8px;
       font-weight: 500;
       cursor: pointer;
+      margin-bottom: 12px;
+    }
+
+    .secondary {
+      background: #1a1a1a;
+      color: #ffffff;
     }
 
     .hidden { display: none; }
@@ -70,7 +76,20 @@
       padding: 16px;
       white-space: pre-wrap;
       font-size: 14px;
-      margin-bottom: 24px;
+      margin-bottom: 16px;
+    }
+
+    .history-item {
+      border-left: 2px solid #ffffff;
+      padding-left: 12px;
+      margin-bottom: 16px;
+      font-size: 14px;
+    }
+
+    .date {
+      font-size: 12px;
+      color: #888;
+      margin-bottom: 6px;
     }
   </style>
 </head>
@@ -78,10 +97,18 @@
 
 <div class="container">
 
+  <!-- SCREEN HISTORY -->
+  <div id="screenHistory" class="hidden">
+    <h1>Твоя траектория</h1>
+    <div id="history"></div>
+    <button class="secondary" onclick="closeHistory()">Назад</button>
+  </div>
+
   <!-- SCREEN SAVED -->
   <div id="screenSaved" class="hidden">
     <h1>Текущий фокус</h1>
     <div class="focus-box" id="savedFocus"></div>
+    <button class="secondary" onclick="openHistory()">История фокусов</button>
     <p>Возврат к Compass будет доступен через 7 дней.</p>
   </div>
 
@@ -127,14 +154,24 @@
   let impactText = '';
   let currentFocus = '';
 
-  // Проверка при старте
+  const historyKey = 'compass_history';
+
+  function loadHistory() {
+    return JSON.parse(localStorage.getItem(historyKey) || '[]');
+  }
+
+  function saveHistory(item) {
+    const history = loadHistory();
+    history.unshift(item);
+    localStorage.setItem(historyKey, JSON.stringify(history));
+  }
+
+  // START CHECK
   const saved = localStorage.getItem('compass_focus');
   const savedAt = localStorage.getItem('compass_date');
 
   if (saved && savedAt) {
-    const diffDays =
-      (Date.now() - Number(savedAt)) / (1000 * 60 * 60 * 24);
-
+    const diffDays = (Date.now() - Number(savedAt)) / (1000 * 60 * 60 * 24);
     if (diffDays < 7) {
       document.getElementById('screen1').classList.add('hidden');
       document.getElementById('screenSaved').classList.remove('hidden');
@@ -150,7 +187,6 @@
 
   async function sendToCompass() {
     impactText = document.getElementById('impact').value;
-
     document.getElementById('screen2').classList.add('hidden');
     document.getElementById('screen3').classList.remove('hidden');
 
@@ -171,7 +207,37 @@
   function acceptFocus() {
     localStorage.setItem('compass_focus', currentFocus);
     localStorage.setItem('compass_date', Date.now());
+
+    saveHistory({
+      focus: currentFocus,
+      date: new Date().toLocaleDateString()
+    });
+
     location.reload();
+  }
+
+  function openHistory() {
+    const history = loadHistory();
+    const container = document.getElementById('history');
+    container.innerHTML = '';
+
+    history.forEach(item => {
+      const div = document.createElement('div');
+      div.className = 'history-item';
+      div.innerHTML = `
+        <div class="date">${item.date}</div>
+        <div>${item.focus}</div>
+      `;
+      container.appendChild(div);
+    });
+
+    document.getElementById('screenSaved').classList.add('hidden');
+    document.getElementById('screenHistory').classList.remove('hidden');
+  }
+
+  function closeHistory() {
+    document.getElementById('screenHistory').classList.add('hidden');
+    document.getElementById('screenSaved').classList.remove('hidden');
   }
 </script>
 
