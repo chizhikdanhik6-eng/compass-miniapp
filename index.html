@@ -43,10 +43,11 @@
       border: none;
       border-radius: 8px;
       padding: 12px;
-      color: #fff;
+      color: #ffffff;
       font-size: 14px;
       box-sizing: border-box;
       margin-bottom: 20px;
+      resize: none;
     }
 
     .option {
@@ -62,6 +63,14 @@
       border-color: #ffffff;
     }
 
+    .focus-box {
+      background: #1a1a1a;
+      border-radius: 8px;
+      padding: 14px;
+      margin-bottom: 20px;
+      font-size: 15px;
+    }
+
     button {
       width: 100%;
       padding: 14px;
@@ -73,35 +82,73 @@
       font-weight: 500;
       cursor: pointer;
     }
+
+    button:active {
+      opacity: 0.85;
+    }
   </style>
 </head>
 <body>
 
-  <!-- SCREEN 1 -->
+  <!-- SCREEN 1 — ВЫГРУЗКА -->
   <div class="container" id="screen1">
     <h1>Compass</h1>
-    <p>Выгрузи всё, что сейчас кажется важным.</p>
+    <p>
+      Выгрузи всё, что сейчас кажется важным.<br>
+      Не сортируй. Не анализируй. Просто напиши.
+    </p>
     <textarea></textarea>
     <button id="toScreen2">Дальше</button>
   </div>
 
-  <!-- SCREEN 2 -->
+  <!-- SCREEN 2 — МАКСИМАЛЬНЫЙ УДАР -->
   <div class="container" id="screen2" style="display:none;">
     <h1>Compass</h1>
-    <p>Если ты ничего не сделаешь в ближайшую неделю — что аукнется сильнее всего?</p>
+    <p>
+      Если ты ничего не сделаешь<br>
+      в ближайшую неделю —<br>
+      что аукнется сильнее всего?
+    </p>
     <textarea></textarea>
     <button id="toScreen3">Дальше</button>
   </div>
 
-  <!-- SCREEN 3 -->
+  <!-- SCREEN 3 — ПРОВЕРКА НА СДВИГ -->
   <div class="container" id="screen3" style="display:none;">
     <h1>Compass</h1>
-    <p>Этот выбор — что он делает?</p>
+    <p>
+      Этот выбор —<br>
+      что он делает?
+    </p>
 
-    <div class="option" data-value="relief">Снижает напряжение</div>
-    <div class="option" data-value="shift">Меняет направление</div>
+    <div class="option" data-value="relief">
+      Снижает напряжение
+    </div>
+
+    <div class="option" data-value="shift">
+      Меняет направление
+    </div>
 
     <button id="evaluateBtn">Продолжить</button>
+  </div>
+
+  <!-- SCREEN 4 — ФИКСАЦИЯ ФОКУСА -->
+  <div class="container" id="screen4" style="display:none;">
+    <h1>Compass</h1>
+
+    <p style="margin-bottom:12px;">Фокус недели</p>
+
+    <div class="focus-box">
+      Принять решение по ключевому направлению,
+      которое сейчас определяет траекторию.
+    </div>
+
+    <p style="font-size:13px; color:#b5b5b5; margin-bottom:24px;">
+      Это не снизит напряжение сразу,
+      но изменит направление движения.
+    </p>
+
+    <button id="acceptFocus">Принять фокус</button>
   </div>
 
 <script>
@@ -111,6 +158,7 @@
     const screen1 = document.getElementById('screen1');
     const screen2 = document.getElementById('screen2');
     const screen3 = document.getElementById('screen3');
+    const screen4 = document.getElementById('screen4');
 
     document.getElementById('toScreen2').addEventListener('click', () => {
       screen1.style.display = 'none';
@@ -127,7 +175,6 @@
         document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
         option.classList.add('selected');
         selected = option.dataset.value;
-        console.log('selected:', selected);
       });
     });
 
@@ -145,8 +192,13 @@
       }
 
       if (selected === 'shift') {
-        alert('Следующий шаг: фиксация фокуса');
+        screen3.style.display = 'none';
+        screen4.style.display = 'block';
       }
+    });
+
+    document.getElementById('acceptFocus').addEventListener('click', () => {
+      alert('Фокус зафиксирован. Возврат через 7 дней.');
     });
   });
 </script>
