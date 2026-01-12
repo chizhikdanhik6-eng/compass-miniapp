@@ -8,13 +8,12 @@
   <style>
     body {
       margin: 0;
-      padding: 0;
       background: #0f0f0f;
       color: #ffffff;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
       height: 100vh;
     }
 
@@ -33,8 +32,8 @@
     p {
       font-size: 14px;
       color: #b5b5b5;
-      margin-bottom: 20px;
       line-height: 1.5;
+      margin-bottom: 20px;
     }
 
     textarea {
@@ -44,11 +43,10 @@
       border: none;
       border-radius: 8px;
       padding: 12px;
-      color: #ffffff;
+      color: #fff;
       font-size: 14px;
-      resize: none;
-      margin-bottom: 20px;
       box-sizing: border-box;
+      margin-bottom: 20px;
     }
 
     .option {
@@ -56,8 +54,8 @@
       border-radius: 8px;
       padding: 14px;
       margin-bottom: 12px;
-      cursor: pointer;
       border: 1px solid transparent;
+      cursor: pointer;
     }
 
     .option.selected {
@@ -72,102 +70,12 @@
       color: #0f0f0f;
       border: none;
       border-radius: 8px;
-      cursor: pointer;
       font-weight: 500;
-      margin-top: 12px;
-    }
-
-    button:active {
-      opacity: 0.85;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
 
-  <!-- ЭКРАН 1 — ВЫГРУЗКА -->
-  <div class="container" id="screen1">
-    <h1>Compass</h1>
-    <p>
-      Выгрузи всё, что сейчас кажется важным.<br>
-      Не сортируй. Не анализируй. Просто напиши.
-    </p>
-
-    <textarea></textarea>
-    <button onclick="goToScreen(2)">Дальше</button>
-  </div>
-
-  <!-- ЭКРАН 2 — МАКСИМАЛЬНЫЙ УДАР -->
-  <div class="container" id="screen2" style="display:none;">
-    <h1>Compass</h1>
-    <p>
-      Если ты ничего не сделаешь<br>
-      в ближайшую неделю —<br>
-      что аукнется сильнее всего?
-    </p>
-
-    <textarea></textarea>
-    <button onclick="goToScreen(3)">Дальше</button>
-  </div>
-
-  <!-- ЭКРАН 3 — ПРОВЕРКА НА СДВИГ -->
-  <div class="container" id="screen3" style="display:none;">
-    <h1>Compass</h1>
-    <p>
-      Этот выбор —<br>
-      что он делает?
-    </p>
-
-    <div class="option" onclick="selectOption(this, 'relief')">
-      Снижает напряжение
-    </div>
-
-    <div class="option" onclick="selectOption(this, 'shift')">
-      Меняет направление
-    </div>
-
-    <button onclick="evaluate()">Продолжить</button>
-  </div>
-
-  <script>
-  let selected = null;
-
-  function goToScreen(n) {
-    document.getElementById('screen1').style.display = 'none';
-    document.getElementById('screen2').style.display = 'none';
-    document.getElementById('screen3').style.display = 'none';
-    document.getElementById('screen' + n).style.display = 'block';
-  }
-
-  function selectOption(el, value) {
-    const options = document.querySelectorAll('.option');
-    options.forEach(o => o.classList.remove('selected'));
-
-    el.classList.add('selected');
-    selected = value;
-
-    console.log('Выбрано:', selected);
-  }
-
-  function evaluate() {
-    console.log('Evaluate called, selected =', selected);
-
-    if (!selected) {
-      alert('Выбери один вариант.');
-      return;
-    }
-
-    if (selected === 'relief') {
-      alert(
-        'Это снизит напряжение, но не изменит направление.\n' +
-        'Выбери то, что влияет на траекторию.'
-      );
-    }
-
-    if (selected === 'shift') {
-      alert('Следующий шаг: фиксация фокуса');
-    }
-  }
-   </script>
-
-</body>
-</html>
+  <!-- SCREEN 1 -->
+  <div class="co
