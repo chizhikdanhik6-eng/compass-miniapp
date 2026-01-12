@@ -9,18 +9,17 @@
     :root {
       --bg-main: #121110;
       --bg-surface: #1b1a18;
-      --text-main: #f5f5f5;
+      --text-main: #f4f3f1;
       --text-muted: #9c9a95;
       --accent: #c7a76a;
+      --line-soft: #2a2926;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
-      background: var(--bg-main);
+      background: radial-gradient(circle at center, #1a1916 0%, #121110 60%);
       color: var(--text-main);
       font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
       height: 100vh;
@@ -34,32 +33,33 @@
       justify-content: center;
       align-items: center;
       padding: 24px;
-      transition: opacity 0.4s ease, transform 0.4s ease;
+      transition: opacity .5s ease, transform .5s ease;
     }
 
     .hidden {
       opacity: 0;
       pointer-events: none;
-      transform: translateY(8px);
+      transform: translateY(10px);
     }
 
     .container {
       width: 100%;
       max-width: 360px;
+      text-align: center;
     }
 
     h1 {
       font-size: 26px;
       font-weight: 500;
-      margin-bottom: 12px;
-      letter-spacing: 0.2px;
+      margin: 16px 0 8px;
+      letter-spacing: .3px;
     }
 
     p {
       font-size: 15px;
-      line-height: 1.5;
+      line-height: 1.6;
       color: var(--text-muted);
-      margin-bottom: 24px;
+      margin-bottom: 28px;
     }
 
     button {
@@ -68,8 +68,8 @@
       font-size: 15px;
       background: var(--bg-surface);
       color: var(--text-main);
-      border: 1px solid #2a2926;
-      border-radius: 10px;
+      border: 1px solid var(--line-soft);
+      border-radius: 12px;
       cursor: pointer;
     }
 
@@ -84,44 +84,37 @@
       width: 100%;
       height: 140px;
       background: var(--bg-surface);
-      border: 1px solid #2a2926;
-      border-radius: 10px;
+      border: 1px solid var(--line-soft);
+      border-radius: 12px;
       padding: 12px;
       color: var(--text-main);
       font-size: 14px;
-      margin-bottom: 20px;
+      margin-bottom: 24px;
       resize: none;
     }
 
-    .divider {
-      width: 1px;
-      height: 48px;
-      background: var(--accent);
-      margin: 16px 0;
+    .logo {
+      width: 110px;
+      height: 110px;
+      margin: 0 auto;
     }
 
-    .menu-btn {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      font-size: 20px;
-      color: var(--text-muted);
-      cursor: pointer;
+    .logo.entry svg {
+      stroke: var(--accent);
     }
 
-    .menu-item {
-      padding: 16px 0;
-      font-size: 16px;
-      border-bottom: 1px solid #2a2926;
-      cursor: pointer;
+    .logo.home svg {
+      stroke: var(--text-main);
+      opacity: .9;
     }
 
     .focus-box {
       background: var(--bg-surface);
-      border-left: 2px solid var(--accent);
-      padding: 16px;
+      border-left: 3px solid var(--accent);
+      padding: 18px;
       font-size: 15px;
       white-space: pre-wrap;
+      text-align: left;
     }
   </style>
 </head>
@@ -129,35 +122,38 @@
 
 <!-- ENTRY -->
 <div class="screen" id="entry">
-  <div class="container" style="text-align:center;">
+  <div class="container">
+    <div class="logo entry">
+      <svg viewBox="0 0 120 120">
+        <circle cx="60" cy="60" r="48" fill="none" stroke-width="2"
+          stroke-dasharray="260 40" transform="rotate(-20 60 60)" />
+        <line x1="64" y1="28" x2="64" y2="92"
+          stroke-width="2" stroke-linecap="round" />
+      </svg>
+    </div>
     <h1>Compass</h1>
-    <div class="divider"></div>
   </div>
 </div>
 
 <!-- HOME -->
 <div class="screen hidden" id="home">
-  <div class="menu-btn" onclick="openMenu()">≡</div>
   <div class="container">
-    <h1>Compass</h1>
+    <div class="logo home">
+      <svg viewBox="0 0 120 120">
+        <circle cx="60" cy="60" r="48" fill="none" stroke-width="2"
+          stroke-dasharray="260 40" transform="rotate(-20 60 60)" />
+        <line x1="64" y1="28" x2="64" y2="92"
+          stroke-width="2" stroke-linecap="round" />
+      </svg>
+    </div>
     <p>Сверь направление</p>
     <button class="primary" onclick="startFlow()">Начать</button>
-  </div>
-</div>
-
-<!-- MENU -->
-<div class="screen hidden" id="menu">
-  <div class="container">
-    <div class="menu-item" onclick="closeMenu()">Compass</div>
-    <div class="menu-item">История</div>
-    <div class="menu-item">О Compass</div>
   </div>
 </div>
 
 <!-- FLOW 1 -->
 <div class="screen hidden" id="flow1">
   <div class="container">
-    <h1>Compass</h1>
     <p>Выгрузи всё, что сейчас кажется важным.</p>
     <textarea id="dump"></textarea>
     <button onclick="toImpact()">Дальше</button>
@@ -167,7 +163,6 @@
 <!-- FLOW 2 -->
 <div class="screen hidden" id="flow2">
   <div class="container">
-    <h1>Compass</h1>
     <p>Если ничего не сделать — что аукнется сильнее всего?</p>
     <textarea id="impact"></textarea>
     <button onclick="sendToCompass()">Продолжить</button>
@@ -191,21 +186,17 @@
 </div>
 
 <script>
-  const screens = ['entry','home','menu','flow1','flow2','thinking','result'];
+  const screens = ['entry','home','flow1','flow2','thinking','result'];
   let dumpText = '';
   let impactText = '';
 
   function show(id) {
-    screens.forEach(s =>
-      document.getElementById(s).classList.add('hidden')
-    );
+    screens.forEach(s => document.getElementById(s).classList.add('hidden'));
     document.getElementById(id).classList.remove('hidden');
   }
 
-  setTimeout(() => show('home'), 1200);
+  setTimeout(() => show('home'), 1300);
 
-  function openMenu() { show('menu'); }
-  function closeMenu() { show('home'); }
   function startFlow() { show('flow1'); }
 
   function toImpact() {
@@ -224,7 +215,9 @@
     });
 
     const data = await res.json();
-    document.getElementById('focus').textContent = data.focus || 'Фокус не найден';
+    document.getElementById('focus').textContent =
+      data.focus || 'Фокус не сформирован';
+
     show('result');
   }
 
