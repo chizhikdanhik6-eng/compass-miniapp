@@ -62,9 +62,7 @@
       cursor: pointer;
     }
 
-    .hidden {
-      display: none;
-    }
+    .hidden { display: none; }
 
     .focus-box {
       background: #1a1a1a;
@@ -79,6 +77,13 @@
 <body>
 
 <div class="container">
+
+  <!-- SCREEN SAVED -->
+  <div id="screenSaved" class="hidden">
+    <h1>Текущий фокус</h1>
+    <div class="focus-box" id="savedFocus"></div>
+    <p>Возврат к Compass будет доступен через 7 дней.</p>
+  </div>
 
   <!-- SCREEN 1 -->
   <div id="screen1">
@@ -120,6 +125,22 @@
 <script>
   let dumpText = '';
   let impactText = '';
+  let currentFocus = '';
+
+  // Проверка при старте
+  const saved = localStorage.getItem('compass_focus');
+  const savedAt = localStorage.getItem('compass_date');
+
+  if (saved && savedAt) {
+    const diffDays =
+      (Date.now() - Number(savedAt)) / (1000 * 60 * 60 * 24);
+
+    if (diffDays < 7) {
+      document.getElementById('screen1').classList.add('hidden');
+      document.getElementById('screenSaved').classList.remove('hidden');
+      document.getElementById('savedFocus').textContent = saved;
+    }
+  }
 
   function goToImpact() {
     dumpText = document.getElementById('dump').value;
@@ -136,23 +157,21 @@
     const res = await fetch('/api/compass', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        dump: dumpText,
-        impact: impactText
-      })
+      body: JSON.stringify({ dump: dumpText, impact: impactText })
     });
 
     const data = await res.json();
+    currentFocus = data.focus || 'Фокус не сформирован';
 
-    document.getElementById('focus').textContent =
-      data.focus || 'Фокус не сформирован';
-
+    document.getElementById('focus').textContent = currentFocus;
     document.getElementById('screen3').classList.add('hidden');
     document.getElementById('screen4').classList.remove('hidden');
   }
 
   function acceptFocus() {
-    alert('Фокус зафиксирован. Возврат через 7 дней.');
+    localStorage.setItem('compass_focus', currentFocus);
+    localStorage.setItem('compass_date', Date.now());
+    location.reload();
   }
 </script>
 
