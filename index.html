@@ -129,34 +129,45 @@
   </div>
 
   <script>
-    let selected = null;
+  let selected = null;
 
-    function goToScreen(n) {
-      document.getElementById('screen1').style.display = 'none';
-      document.getElementById('screen2').style.display = 'none';
-      document.getElementById('screen3').style.display = 'none';
-      document.getElementById('screen' + n).style.display = 'block';
+  function goToScreen(n) {
+    document.getElementById('screen1').style.display = 'none';
+    document.getElementById('screen2').style.display = 'none';
+    document.getElementById('screen3').style.display = 'none';
+    document.getElementById('screen' + n).style.display = 'block';
+  }
+
+  function selectOption(el, value) {
+    const options = document.querySelectorAll('.option');
+    options.forEach(o => o.classList.remove('selected'));
+
+    el.classList.add('selected');
+    selected = value;
+
+    console.log('Выбрано:', selected);
+  }
+
+  function evaluate() {
+    console.log('Evaluate called, selected =', selected);
+
+    if (!selected) {
+      alert('Выбери один вариант.');
+      return;
     }
 
-    function selectOption(el, value) {
-      document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
-      el.classList.add('selected');
-      selected = value;
+    if (selected === 'relief') {
+      alert(
+        'Это снизит напряжение, но не изменит направление.\n' +
+        'Выбери то, что влияет на траекторию.'
+      );
     }
 
-    function evaluate() {
-      if (!selected) {
-        alert('Выбери один вариант.');
-        return;
-      }
-
-      if (selected === 'relief') {
-        alert('Это снизит напряжение, но не изменит направление.\nПопробуй выбрать то, что влияет на траекторию.');
-      } else {
-        alert('Следующий шаг: фиксация фокуса');
-      }
+    if (selected === 'shift') {
+      alert('Следующий шаг: фиксация фокуса');
     }
-  </script>
+  }
+   </script>
 
 </body>
 </html>
